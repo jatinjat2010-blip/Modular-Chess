@@ -26,14 +26,20 @@ Bundled engines, bots, libraries, and retained third-party assets keep their
 own licenses and notices. Please review the third-party notice files before
 redistributing packaged builds.
 
+Note: the public source repository may not include all bundled engine or bot
+binaries used in packaged releases. Those binaries can be distributed as part
+of release builds instead of the source tree.
+
 ## Bundled engine notice
-This app can bundle the Stockfish chess engine for offline analysis/play support.
+Packaged releases of this app can bundle the Stockfish chess engine for offline
+analysis/play support.
 
 - Stockfish project: https://stockfishchess.org/
 - Stockfish source: https://github.com/official-stockfish/Stockfish
 - License: GPL-3.0-or-later
 
-See `STOCKFISH_NOTICE.md` and `Engines/stockfish/` for included license/source notice files.
+See `STOCKFISH_NOTICE.md` and the packaged release notice files for the relevant
+license/source notices.
 
 ## Current milestone
 - Local board play with legal move handling.

@@ -7,6 +7,11 @@ This file is a practical notice file for distribution. It is not a substitute
 for the original license texts. Where required, include the full license text
 in a `licenses/` directory and preserve any upstream notices.
 
+Note: the public source repository may not contain every bundled engine or bot
+binary used in packaged releases. This notice file covers third-party
+components intended for distribution with the app, including release-only
+bundled binaries.
+
 ## Core App Dependencies
 
 ### Electron
@@ -42,20 +47,20 @@ in a `licenses/` directory and preserve any upstream notices.
 - Project: Stockfish
 - Use: Standard chess engine analysis / play
 - License: GPL
-- Bundled path: `Engines/stockfish/`
+- Bundled path in packaged releases: `Engines/stockfish/`
 - Upstream: https://stockfishchess.org/
 
 ### Fairy-Stockfish
 - Project: Fairy-Stockfish
 - Use: Variant engine support
 - License: GPL
-- Bundled path: `Engines/fairy-stockfish/`
+- Bundled path in packaged releases: `Engines/fairy-stockfish/`
 - Upstream: https://fairy-stockfish.github.io/
 
 ## Bundled Bots
 
 The following bot engines or engine profiles are intended for bundled
-distribution with the app.
+distribution with packaged releases of the app.
 
 ### Seer
 - License: GPL-3.0
