@@ -46,7 +46,8 @@
     "asar": true,
     "asarUnpack": [
       "vision-backend/**/*",
-      "Engines/**/*"
+      "Engines/**/*",
+      "Bots/**/*"
     ],
     "win": {
       "icon": "icon.png",

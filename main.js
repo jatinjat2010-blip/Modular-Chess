@@ -76,7 +76,7 @@ async function getBuiltinEngineRecords() {
 
 async function getBuiltinBotRecords() {
   const items = [];
-  const foxseePath = getBundledPath("bots", "foxsee_v8.2_win_x86-64.exe");
+  const foxseePath = getBundledPath("Bots", "foxsee_v8.2_win_x86-64.exe");
   try {
     await fs.access(foxseePath);
     items.push({
