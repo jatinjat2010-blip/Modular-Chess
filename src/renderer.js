@@ -1085,6 +1085,7 @@ async function addBotFromFilePicker() {
     const existing = customBotRecords.find((item) => String(item.enginePath || "").trim().toLowerCase() === enginePath.toLowerCase()) || null;
     const entry = {
       id: existing?.id || makeCustomBotId(enginePath),
+      kind: "uci",
       name: makeBotNameFromPath(enginePath),
       rating: existing?.rating || 2500,
       enginePath,

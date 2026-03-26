@@ -3915,7 +3915,8 @@ select.setup-select option {
 .analysis-fen-text::-webkit-scrollbar,
 .archive-list::-webkit-scrollbar,
 .theme-grid::-webkit-scrollbar,
-.tournament-table-wrap::-webkit-scrollbar {
+.tournament-table-wrap::-webkit-scrollbar,
+.tablebase-moves::-webkit-scrollbar {
   width: 10px;
 }
 
@@ -3925,7 +3926,8 @@ select.setup-select option {
 .analysis-fen-text::-webkit-scrollbar-track,
 .archive-list::-webkit-scrollbar-track,
 .theme-grid::-webkit-scrollbar-track,
-.tournament-table-wrap::-webkit-scrollbar-track {
+.tournament-table-wrap::-webkit-scrollbar-track,
+.tablebase-moves::-webkit-scrollbar-track {
   background: #141414;
 }
 
@@ -3935,7 +3937,8 @@ select.setup-select option {
 .analysis-fen-text::-webkit-scrollbar-thumb,
 .archive-list::-webkit-scrollbar-thumb,
 .theme-grid::-webkit-scrollbar-thumb,
-.tournament-table-wrap::-webkit-scrollbar-thumb {
+.tournament-table-wrap::-webkit-scrollbar-thumb,
+.tablebase-moves::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #4a4a4a, #2c2c2c);
   border: 2px solid #141414;
 }
@@ -3946,7 +3949,8 @@ select.setup-select option {
 .analysis-fen-text::-webkit-scrollbar-thumb:hover,
 .archive-list::-webkit-scrollbar-thumb:hover,
 .theme-grid::-webkit-scrollbar-thumb:hover,
-.tournament-table-wrap::-webkit-scrollbar-thumb:hover {
+.tournament-table-wrap::-webkit-scrollbar-thumb:hover,
+.tablebase-moves::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #5a5a5a, #373737);
 }
 
@@ -4514,6 +4518,8 @@ select.setup-select option {
   max-height: 280px;
   overflow-y: auto;
   padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a #141414;
 }
 
 .tablebase-move {
