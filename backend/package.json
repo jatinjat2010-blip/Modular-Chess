@@ -1,0 +1,13 @@
+{
+  "name": "offline-lichess-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Companion OAuth backend for Offline Lichess desktop app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

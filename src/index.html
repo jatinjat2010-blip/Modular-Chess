@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./modules/computer-analysis/computer-analysis.css" />
+    <link rel="stylesheet" href="./modules/bots/bots.css" />
+    <link rel="stylesheet" href="./modules/puzzles/puzzle.css" />
+    <link rel="stylesheet" href="./modules/variants/variants.css" />
+</head>
+<body>
+  <main class="page">
+    <section id="home-screen" class="home-screen">
+      <div id="home-online-toolbar" class="home-online-toolbar hidden">
+        <div class="home-online-group">
+          <button id="btn-home-active-games" class="home-online-btn" type="button" aria-label="Active Games" title="Active Games">
+            <img src="../assets/extras/active.png" alt="Active Games" />
+            <span id="home-active-games-badge" class="home-online-badge hidden">0</span>
+          </button>
+          <div id="home-active-games-panel" class="home-online-panel hidden">
+            <div class="setup-label">Active Games</div>
+            <div id="online-active-games-list" class="online-list"></div>
+          </div>
+        </div>
+        <div class="home-online-group">
+          <button id="btn-home-challenge" class="home-online-btn" type="button" aria-label="Challenge" title="Challenge">
+            <img src="../assets/extras/challange.png" alt="Challenge" />
+            <span id="home-challenge-badge" class="home-online-badge hidden">0</span>
+          </button>
+          <div id="home-challenge-panel" class="home-online-panel hidden">
+            <div class="setup-label">Incoming Challenges</div>
+            <div id="online-incoming-list" class="online-list"></div>
+            <label class="opt-check online-challenge-block-toggle">
+              <input id="online-block-challenges" type="checkbox" />
+              Block challenges
+            </label>
+            <div class="setup-label">Create Challenge</div>
+            <div class="online-challenge-form">
+              <div class="online-challenge-row">
+                <input id="online-challenge-user" class="setup-select" type="text" placeholder="Opponent username" />
+              </div>
+              <div class="online-challenge-row online-challenge-time-row">
+                <div class="online-challenge-slider-group">
+                  <div class="online-challenge-slider-head">
+                    <span>Main time</span>
+                    <span id="online-challenge-limit-value">3:00</span>
+                  </div>
+                  <input id="online-challenge-limit" type="range" min="0" max="0" step="1" value="0" />
+                </div>
+                <div class="online-challenge-slider-group">
+                  <div class="online-challenge-slider-head">
+                    <span>Increment</span>
+                    <span id="online-challenge-inc-value">2s</span>
+                  </div>
+                  <input id="online-challenge-inc" type="range" min="1" max="60" step="1" value="2" />
+                </div>
+              </div>
+              <div class="online-challenge-row online-challenge-meta-row">
+                <select id="online-challenge-color" class="setup-select">
+                  <option value="random">Random</option>
+                  <option value="white">White</option>
+                  <option value="black">Black</option>
+                </select>
+                <label class="opt-check"><input id="online-challenge-rated" type="checkbox" /> Rated</label>
+              </div>
+            </div>
+            <div class="engine-btn-row online-challenge-action-row">
+              <button id="btn-online-create-challenge" class="engine-btn" type="button">Create Challenge</button>
+            </div>
+            <div id="online-challenge-status" class="engine-status">Ready</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="home-profile" class="home-profile">
+        <button id="btn-home-profile" class="home-profile-btn" type="button" aria-label="Profile menu">
+          <span id="home-profile-name" class="home-profile-name">Player 2</span>
+          <img id="home-profile-avatar" src="../assets/extras/user.png" alt="User profile" />
+        </button>
+        <div id="home-profile-menu" class="home-profile-menu hidden" role="menu" aria-label="Profile options">
+          <button class="home-profile-menu-item" data-profile-action="home" type="button">Home</button>
+          <button class="home-profile-menu-item" data-profile-action="account" type="button">Account</button>
+          <button class="home-profile-menu-item" data-profile-action="board" type="button">Board</button>
+          <button class="home-profile-menu-item" data-profile-action="pieces" type="button">Pieces</button>
+          <button class="home-profile-menu-item" data-profile-action="sound" type="button">Sound</button>
+          <button class="home-profile-menu-item" data-profile-action="background" type="button">Background</button>
+          <button id="home-profile-online-toggle" class="home-profile-menu-item" data-profile-action="online-mode" type="button">Offline Mode</button>
+        </div>
+      </div>
+
+      <div class="home-layout">
+        <button id="home-play-mode-bar" class="home-play-mode-bar" type="button">Mode: Offline</button>
+        <div class="time-grid">
+          <button class="time-card selected" data-base-min="1" data-inc-sec="0"><span class="tc-main">1+0</span><span class="tc-sub">Bullet</span></button>
+          <button class="time-card" data-base-min="2" data-inc-sec="1"><span class="tc-main">2+1</span><span class="tc-sub">Bullet</span></button>
+          <button class="time-card" data-base-min="3" data-inc-sec="0"><span class="tc-main">3+0</span><span class="tc-sub">Blitz</span></button>
+          <button class="time-card" data-base-min="3" data-inc-sec="2"><span class="tc-main">3+2</span><span class="tc-sub">Blitz</span></button>
+          <button class="time-card" data-base-min="5" data-inc-sec="0"><span class="tc-main">5+0</span><span class="tc-sub">Blitz</span></button>
+          <button class="time-card" data-base-min="5" data-inc-sec="3"><span class="tc-main">5+3</span><span class="tc-sub">Blitz</span></button>
+          <button class="time-card" data-base-min="10" data-inc-sec="0"><span class="tc-main">10+0</span><span class="tc-sub">Rapid</span></button>
+          <button class="time-card" data-base-min="10" data-inc-sec="5"><span class="tc-main">10+5</span><span class="tc-sub">Rapid</span></button>
+          <button class="time-card" data-base-min="15" data-inc-sec="10"><span class="tc-main">15+10</span><span class="tc-sub">Rapid</span></button>
+          <button class="time-card" data-base-min="30" data-inc-sec="0"><span class="tc-main">30+0</span><span class="tc-sub">Classical</span></button>
+          <button class="time-card" data-base-min="30" data-inc-sec="20"><span class="tc-main">30+20</span><span class="tc-sub">Classical</span></button>
+          <button class="time-card time-unlimited" data-mode="unlimited"><span class="tc-main">Unlimited</span><span class="tc-sub">No clock</span></button>
+        </div>
+
+        <div class="home-actions">
+          <button id="btn-load-engine" class="home-action-btn" type="button">Load Engine</button>
+          <button id="btn-game-setup" class="home-action-btn" type="button">Game Setup</button>
+          <button id="btn-board-analysis" class="home-action-btn" type="button">Board Analysis</button>
+          <button id="btn-board-editor" class="home-action-btn" type="button">Board Editor</button>
+          <button id="btn-game-archive" class="home-action-btn" type="button">Game Archive</button>
+          <button id="btn-online-mode" class="home-action-btn" type="button">Chess Modules</button>
+        </div>
+      </div>
+
+      <div id="setup-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Game setup">
+        <div class="setup-panel">
+          <div class="setup-header">
+            <h2>Game Setup</h2>
+            <button id="btn-setup-close" class="setup-close" type="button" aria-label="Close setup">x</button>
+          </div>
+
+          <div class="setup-row">
+            <label class="setup-label">Engine</label>
+            <div id="setup-engine-display" class="setup-engine-display">No engine loaded</div>
+          </div>
+
+          <div class="setup-row">
+            <label class="setup-label" for="main-time-slider">Main time per side</label>
+            <div class="setup-value" id="main-time-value">1:00</div>
+            <input id="main-time-slider" class="setup-slider" type="range" min="10" max="10800" step="10" value="60" />
+          </div>
+
+          <div class="setup-row">
+            <label class="setup-label" for="increment-slider">Increment per move</label>
+            <div class="setup-value" id="increment-value">0s</div>
+            <input id="increment-slider" class="setup-slider" type="range" min="0" max="180" step="1" value="0" />
+          </div>
+
+          <div class="setup-row">
+            <div class="setup-label">Player 2 Color</div>
+            <div class="side-pick">
+              <button id="side-white" class="side-btn" type="button">
+                <span class="side-btn-icons">
+                  <img src="../assets/Pieces/cburnett/wK.svg" alt="" />
+                </span>
+                <span class="side-btn-label">White</span>
+              </button>
+              <button id="side-black" class="side-btn" type="button">
+                <span class="side-btn-icons">
+                  <img src="../assets/Pieces/cburnett/bK.svg" alt="" />
+                </span>
+                <span class="side-btn-label">Black</span>
+              </button>
+              <button id="side-random" class="side-btn selected" type="button">
+                <span class="side-btn-icons">
+                  <img src="../assets/Pieces/cburnett/wK.svg" alt="" />
+                  <img src="../assets/Pieces/cburnett/bK.svg" alt="" />
+                </span>
+                <span class="side-btn-label">Random</span>
+              </button>
+            </div>
+          </div>
+
+          <button id="btn-setup-play" class="setup-play-btn" type="button">Play</button>
+        </div>
+      </div>
+
+      <div id="engine-controls-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Load engine">
+        <div class="setup-panel">
+          <div class="setup-header">
+            <h2>Load Engine</h2>
+            <button id="btn-engine-controls-close" class="setup-close" type="button" aria-label="Close engine controls">x</button>
+          </div>
+
+          <div class="setup-row">
+            <label class="setup-label" for="engine-select">Engine</label>
+            <div class="engine-controls">
+              <select id="engine-select" class="setup-select"></select>
+              <div class="engine-btn-row">
+                <button id="btn-add-engine" class="engine-btn" type="button">Add Engine</button>
+                <button id="btn-set-default-engine" class="engine-btn" type="button">Set Default</button>
+                <button id="btn-rename-engine" class="engine-btn" type="button">Rename</button>
+                <button id="btn-remove-engine" class="engine-btn" type="button">Remove Selected</button>
+              </div>
+              <div id="engine-path" class="engine-path"></div>
+            </div>
+          </div>
+
+          <div class="setup-row">
+            <div class="setup-label">Engine Runtime</div>
+            <div class="engine-btn-row">
+              <button id="btn-engine-connect" class="engine-btn" type="button">Connect</button>
+              <button id="btn-engine-disconnect" class="engine-btn" type="button">Disconnect</button>
+              <button id="btn-engine-apply" class="engine-btn" type="button">Apply Options</button>
+            </div>
+            <div id="engine-status" class="engine-status">Disconnected</div>
+            <div class="engine-option-grid">
+              <div class="engine-slider-row">
+                <label for="opt-threads">Threads</label>
+                <span id="opt-threads-value" class="engine-slider-value">1</span>
+                <input id="opt-threads" type="range" min="1" max="1" step="1" value="1" />
+              </div>
+              <div class="engine-slider-row">
+                <label for="opt-hash">Hash (MB)</label>
+                <span id="opt-hash-value" class="engine-slider-value">16</span>
+                <input id="opt-hash" type="range" min="1" max="16" step="1" value="16" />
+              </div>
+              <div class="engine-slider-row">
+                <label for="opt-multipv">MultiPV</label>
+                <span id="opt-multipv-value" class="engine-slider-value">1</span>
+                <input id="opt-multipv" type="range" min="1" max="1" step="1" value="1" />
+              </div>
+              <div class="engine-slider-row">
+                <label for="opt-skill">Skill</label>
+                <span id="opt-skill-value" class="engine-slider-value">20</span>
+                <input id="opt-skill" type="range" min="0" max="20" step="1" value="20" />
+              </div>
+              <div class="engine-slider-row">
+                <label for="opt-elo">Elo</label>
+                <span id="opt-elo-value" class="engine-slider-value">1800</span>
+                <input id="opt-elo" type="range" min="1000" max="2500" step="1" value="1800" />
+              </div>
+              <label class="opt-check"><input id="opt-limit-strength" type="checkbox" /> Limit Strength</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="rename-engine-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Rename engine">
+        <div class="setup-panel">
+          <div class="setup-header">
+            <h2>Rename Engine</h2>
+            <button id="btn-rename-engine-close" class="setup-close" type="button" aria-label="Close rename engine">x</button>
+          </div>
+          <div class="setup-row">
+            <label class="setup-label" for="rename-engine-input">Engine Name</label>
+            <input id="rename-engine-input" class="setup-select" type="text" maxlength="64" />
+          </div>
+          <div class="setup-row">
+            <div class="engine-btn-row">
+              <button id="btn-rename-engine-save" class="engine-btn" type="button">Save</button>
+              <button id="btn-rename-engine-cancel" class="engine-btn" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="account-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Account settings">
+        <div class="setup-panel account-panel">
+          <div class="setup-header">
+            <h2>Account</h2>
+            <button id="btn-account-close" class="setup-close" type="button" aria-label="Close account settings">x</button>
+          </div>
+          <div class="account-body">
+            <label class="setup-label" for="account-name-input">Name</label>
+            <input id="account-name-input" class="setup-select" type="text" maxlength="25" />
+            <div class="account-note">Max 25 characters.</div>
+            <label class="opt-check">
+              <input id="account-sync-online" type="checkbox" />
+              Sync online username
+            </label>
+
+            <label class="setup-label" for="account-avatar-input">Profile picture</label>
+            <input id="account-avatar-input" class="background-file-input" type="file" accept="image/*" />
+            <div class="account-note">Max file size: 3 MB.</div>
+
+            <div class="account-avatar-preview-wrap">
+              <img id="account-avatar-preview" class="account-avatar-preview" src="../assets/extras/user.png" alt="Profile preview" />
+            </div>
+
+            <div id="account-msg" class="archive-status"></div>
+
+            <div class="engine-btn-row">
+              <button id="btn-account-save" class="engine-btn" type="button">Save</button>
+              <button id="btn-account-cancel" class="engine-btn" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="theme-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Theme selector">
+        <div class="setup-panel theme-panel">
+          <div class="setup-header">
+            <h2 id="theme-modal-title">Select</h2>
+            <button id="btn-theme-close" class="setup-close" type="button" aria-label="Close selector">x</button>
+          </div>
+          <div class="theme-body">
+            <div id="theme-import-actions" class="engine-btn-row hidden">
+              <button id="btn-theme-import-board" class="engine-btn hidden" type="button">Add Board</button>
+              <button id="btn-theme-import-pieces" class="engine-btn hidden" type="button">Add Piece Set</button>
+            </div>
+            <div id="theme-status" class="archive-status">Loading...</div>
+            <div id="theme-grid" class="theme-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="background-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Background selector">
+        <div class="setup-panel background-panel">
+          <div class="setup-header">
+            <h2>Background</h2>
+            <button id="btn-background-close" class="setup-close" type="button" aria-label="Close background selector">x</button>
+          </div>
+          <div class="background-body">
+            <div class="engine-btn-row background-mode-row">
+              <button id="btn-background-default" class="engine-btn" type="button">Default</button>
+              <button id="btn-background-color-mode" class="engine-btn" type="button">Choose Color</button>
+              <button id="btn-background-image-mode" class="engine-btn" type="button">Upload Image</button>
+              <button id="btn-background-fullscreen-toggle" class="engine-btn" type="button">Full Screen Mode</button>
+            </div>
+            <div id="background-color-wrap" class="background-control-wrap hidden">
+              <label class="setup-label" for="background-color-input">Color</label>
+              <input id="background-color-input" class="background-color-input" type="color" value="#2c2c2c" />
+            </div>
+            <div id="background-image-wrap" class="background-control-wrap hidden">
+              <label class="setup-label" for="background-image-input">Image</label>
+              <input id="background-image-input" class="background-file-input" type="file" accept="image/*" />
+              <div class="account-note">Large images may affect memory usage.</div>
+            </div>
+            <div id="background-preview" class="background-preview"></div>
+            <div id="background-msg" class="archive-status"></div>
+            <div class="engine-btn-row">
+              <button id="btn-background-apply" class="engine-btn" type="button">Apply</button>
+              <button id="btn-background-cancel" class="engine-btn" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="archive-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Game archive">
+        <div class="setup-panel archive-panel">
+          <div class="setup-header">
+            <h2>Game Archive</h2>
+            <button id="btn-archive-close" class="setup-close" type="button" aria-label="Close game archive">x</button>
+          </div>
+          <div class="archive-tabs">
+            <button id="archive-tab-offline" class="archive-tab active" type="button">Offline</button>
+            <button id="archive-tab-botvbot" class="archive-tab" type="button">Bot vs Bot</button>
+            <button id="archive-tab-variants" class="archive-tab" type="button">Variants</button>
+            <button id="archive-tab-online" class="archive-tab" type="button">Online</button>
+          </div>
+          <div id="archive-online-actions" class="archive-online-actions">
+            <button id="btn-archive-sync-online" class="engine-btn" type="button">Sync Last 100 Games</button>
+            <button id="btn-archive-bulk-analysis" class="engine-btn" type="button">Bulk Analysis</button>
+            <button id="btn-archive-delete-all" class="engine-btn archive-delete-all-btn" type="button">Delete All</button>
+          </div>
+          <div class="archive-body">
+            <div id="archive-status" class="archive-status">Loading saved games...</div>
+            <div id="archive-list" class="archive-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="archive-delete-confirm-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Confirm archive delete">
+        <div class="setup-panel archive-delete-confirm-panel">
+          <div class="setup-header">
+            <h2>Delete Games</h2>
+            <button id="btn-archive-delete-confirm-close" class="setup-close" type="button" aria-label="Close delete confirmation">x</button>
+          </div>
+          <div class="archive-delete-confirm-body">
+            <div id="archive-delete-confirm-text" class="archive-status">Are you sure you want to delete these games?</div>
+            <div class="engine-btn-row archive-delete-confirm-actions">
+              <button id="btn-archive-delete-confirm-cancel" class="engine-btn" type="button">Cancel</button>
+              <button id="btn-archive-delete-confirm-accept" class="engine-btn archive-delete-all-btn" type="button">Delete All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="archive-delete-progress-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Deleting archived games">
+        <div class="setup-panel archive-delete-progress-panel">
+          <div class="setup-header">
+            <h2>Deleting Games</h2>
+          </div>
+          <div class="archive-delete-progress-body">
+            <div id="archive-delete-progress-text" class="archive-status">Deleting 0/0 games...</div>
+            <div class="archive-delete-progress-track">
+              <div id="archive-delete-progress-fill" class="archive-delete-progress-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="archive-bulk-analysis-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Bulk computer analysis">
+        <div class="setup-panel archive-bulk-analysis-panel">
+          <div class="setup-header">
+            <h2>Bulk Analysis</h2>
+            <button id="btn-archive-bulk-analysis-close" class="setup-close" type="button" aria-label="Close bulk analysis">x</button>
+          </div>
+          <div class="archive-bulk-analysis-body">
+            <label class="setup-label" for="archive-bulk-count">Games to analyze</label>
+            <select id="archive-bulk-count" class="setup-select"></select>
+
+            <label class="setup-label" for="archive-bulk-depth">Depth</label>
+            <select id="archive-bulk-depth" class="setup-select">
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+            </select>
+
+            <div id="archive-bulk-warning" class="archive-bulk-warning hidden">
+              Depth 15 may take a long time on larger batches.
+            </div>
+            <div id="archive-bulk-summary" class="archive-status"></div>
+
+            <div class="engine-btn-row archive-delete-confirm-actions">
+              <button id="btn-archive-bulk-analysis-cancel" class="engine-btn" type="button">Cancel</button>
+              <button id="btn-archive-bulk-analysis-run" class="engine-btn" type="button">Run</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="archive-bulk-progress-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Bulk analysis progress">
+        <div class="setup-panel archive-bulk-progress-panel">
+          <div class="setup-header">
+            <h2>Analyzing Games</h2>
+          </div>
+          <div class="archive-bulk-progress-body">
+            <div id="archive-bulk-progress-text" class="archive-status">Preparing batch...</div>
+            <div id="archive-bulk-progress-current" class="archive-bulk-progress-current"></div>
+            <div class="archive-delete-progress-track">
+              <div id="archive-bulk-progress-fill" class="archive-delete-progress-fill"></div>
+            </div>
+            <div id="archive-bulk-progress-eta" class="archive-bulk-progress-eta">Estimated time left: --</div>
+            <div class="engine-btn-row archive-delete-confirm-actions">
+              <button id="btn-archive-bulk-progress-cancel" class="engine-btn archive-delete-all-btn" type="button">Cancel After Current Game</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="online-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Online mode">
+        <div class="setup-panel online-panel">
+          <div class="setup-header">
+            <h2>Online Mode (Lichess)</h2>
+            <button id="btn-online-close" class="setup-close" type="button" aria-label="Close online mode">x</button>
+          </div>
+          <div class="online-body">
+            <div class="online-auth">
+              <label class="setup-label" for="online-backend-url">Lichess OAuth Client ID (optional)</label>
+              <input id="online-backend-url" class="setup-select" type="text" placeholder="offline-lichess-desktop-v1" />
+              <div id="online-connect-status" class="engine-status">Logged out</div>
+              <div class="engine-btn-row">
+                <button id="btn-online-start-login" class="engine-btn" type="button">Connect Lichess</button>
+                <button id="btn-online-logout" class="engine-btn" type="button">Logout</button>
+              </div>
+              <div id="online-account-status" class="engine-status">Disconnected</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="challenge-wait-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Waiting for opponent">
+        <div class="setup-panel challenge-wait-panel">
+          <div class="setup-header">
+            <h2>Challenge Sent</h2>
+          </div>
+          <div class="challenge-wait-body">
+            <div class="challenge-wait-status">Waiting for opponent...</div>
+            <div id="challenge-wait-details" class="challenge-wait-details"></div>
+            <div class="engine-btn-row challenge-wait-actions">
+              <button id="btn-challenge-wait-cancel" class="engine-btn" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools-screen" class="tools-screen hidden">
+      <button id="btn-tools-back" class="tools-top-back" type="button">Back</button>
+        <div class="tools-layout modules-layout">
+          <div class="tools-actions modules-actions">
+          <button id="btn-tool-puzzle" class="home-action-btn tools-action-btn" type="button">Puzzle</button>
+          <button id="btn-tool-computer-analysis" class="home-action-btn tools-action-btn" type="button">Computer Analysis</button>
+          <button id="btn-tool-bots" class="home-action-btn tools-action-btn" type="button">Bots</button>
+          <button id="btn-tool-variants" class="home-action-btn tools-action-btn" type="button">Variants</button>
+          <button id="btn-tool-tablebase" class="home-action-btn tools-action-btn" type="button">Tablebase</button>
+          <button id="btn-tool-chess960" class="home-action-btn tools-action-btn" type="button">Chess 960 Position Generator</button>
+          <button id="btn-tool-tournament" class="home-action-btn tools-action-btn" type="button">Tournament Mode</button>
+          <button id="btn-tool-vision" class="home-action-btn tools-action-btn" type="button">Chess Vision</button>
+          </div>
+          <div class="modules-note">Developers are encouraged to add their own modules here.</div>
+      </div>
+    </section>
+
+    <section id="puzzle-screen" class="tools-screen hidden">
+      <button id="btn-puzzle-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout puzzle-layout">
+        <div id="puzzle-root" class="puzzle-shell"></div>
+      </div>
+    </section>
+
+    <section id="computer-analysis-screen" class="tools-screen hidden">
+      <button id="btn-computer-analysis-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout computer-analysis-layout">
+        <div id="computer-analysis-root" class="computer-analysis-shell"></div>
+      </div>
+    </section>
+
+    <section id="bots-screen" class="tools-screen hidden">
+      <button id="btn-bots-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout bots-layout">
+        <div id="bots-root" class="bots-shell"></div>
+      </div>
+    </section>
+
+    <section id="bot-tournament-screen" class="tools-screen hidden">
+      <button id="btn-bot-tournament-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout tournament-layout">
+        <div class="tools-header">
+          <h2>Bots Tournament</h2>
+        </div>
+
+        <div id="bot-tournament-setup-view" class="tournament-grid">
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Config</div>
+            <label class="setup-label" for="bot-tournament-name-input">Tournament name</label>
+            <input id="bot-tournament-name-input" class="setup-select" type="text" maxlength="80" />
+
+            <div class="tournament-config-row">
+              <label class="setup-label" for="bot-tournament-format-select">Format</label>
+              <select id="bot-tournament-format-select" class="setup-select">
+                <option value="swiss_dutch">Swiss (Dutch)</option>
+                <option value="rr">Round Robin</option>
+                <option value="drr">Double Round Robin</option>
+                <option value="ko">Knockout</option>
+              </select>
+            </div>
+
+            <div class="tournament-config-row">
+              <label class="setup-label" for="bot-tournament-rounds-input">Swiss rounds</label>
+              <input id="bot-tournament-rounds-input" class="setup-select" type="number" min="1" max="30" value="7" />
+            </div>
+
+            <div class="tournament-config-row">
+              <label class="setup-label" for="bot-tournament-time-main">Main time</label>
+              <select id="bot-tournament-time-main" class="setup-select">
+                <option value="1">1 minute</option>
+                <option value="3">3 minutes</option>
+                <option value="5" selected>5 minutes</option>
+                <option value="10">10 minutes</option>
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="60">60 minutes</option>
+                <option value="90">90 minutes</option>
+                <option value="180">180 minutes</option>
+              </select>
+            </div>
+
+            <div class="tournament-config-row">
+              <label class="setup-label" for="bot-tournament-time-increment">Increment</label>
+              <select id="bot-tournament-time-increment" class="setup-select">
+                <option value="0">0 seconds</option>
+                <option value="1">1 second</option>
+                <option value="2">2 seconds</option>
+                <option value="3" selected>3 seconds</option>
+                <option value="5">5 seconds</option>
+                <option value="10">10 seconds</option>
+                <option value="15">15 seconds</option>
+                <option value="30">30 seconds</option>
+              </select>
+            </div>
+
+            <label class="opt-check">
+              <input id="bot-tournament-randomize-ko" type="checkbox" />
+              Randomize knockout seeding
+            </label>
+
+            <div class="engine-btn-row">
+              <button id="btn-bot-tournament-save" class="engine-btn" type="button">Save</button>
+              <button id="btn-bot-tournament-start" class="engine-btn" type="button">Start Tournament</button>
+            </div>
+          </div>
+
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Bots</div>
+            <div class="tournament-player-add bot-tournament-player-add">
+              <select id="bot-tournament-player-name" class="setup-select">
+                <option value="">Select a player</option>
+              </select>
+              <input id="bot-tournament-player-rating" class="setup-select" type="number" placeholder="Rating" readonly />
+              <button id="btn-bot-tournament-add-player" class="engine-btn" type="button">Add</button>
+            </div>
+            <input id="bot-tournament-player-search" class="setup-select tournament-player-search" type="text" placeholder="Search players" />
+            <div class="tournament-table-wrap tournament-player-table-wrap">
+              <table class="tournament-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Rt</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="bot-tournament-player-list"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="bot-tournament-live-view" class="tournament-grid hidden">
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Round Pairings</div>
+            <div id="bot-tournament-round-label" class="tournament-round-label">0 bots • 5+3</div>
+            <div class="engine-btn-row tournament-round-actions bot-tournament-round-actions">
+              <button id="btn-bot-tournament-next-round" class="engine-btn" type="button">Next Round</button>
+              <button id="btn-bot-tournament-standings" class="engine-btn" type="button">Standings</button>
+              <button id="btn-bot-tournament-finalize" class="engine-btn" type="button">Complete Tournament</button>
+              <button id="btn-bot-tournament-live-back" class="engine-btn" type="button">Back To Setup</button>
+            </div>
+            <div class="tournament-table-wrap tournament-live-pairings-wrap">
+              <table class="tournament-table">
+                <thead>
+                  <tr>
+                    <th>Bd</th>
+                    <th>White</th>
+                    <th>Black</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="bot-tournament-pairings-list"></tbody>
+              </table>
+            </div>
+            <div id="bot-tournament-pairings-status"></div>
+          </div>
+        </div>
+
+        <div id="bot-tournament-standings-view" class="tournament-grid hidden">
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Standings</div>
+            <div class="engine-btn-row tournament-standings-actions">
+              <button id="btn-bot-tournament-standings-back" class="engine-btn" type="button">Back</button>
+            </div>
+            <input id="bot-tournament-standings-search" class="setup-select tournament-player-search" type="text" placeholder="Search standings" />
+            <div class="tournament-table-wrap tournament-standings-table-wrap">
+              <table class="tournament-table">
+                <thead>
+                  <tr>
+                    <th>Rk</th>
+                    <th>Name</th>
+                    <th>Pts</th>
+                    <th>BH</th>
+                    <th>MBH</th>
+                    <th>SB</th>
+                    <th>DE</th>
+                  </tr>
+                </thead>
+                <tbody id="bot-tournament-standings-list"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="bot-tournament-status" class="archive-status"></div>
+      </div>
+
+      <div id="bot-tournament-exit-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Exit bot tournament">
+        <div class="setup-panel archive-delete-confirm-panel">
+          <div class="setup-panel-title-row">
+            <h2 class="setup-panel-title">Stop Bots Tournament</h2>
+            <button id="btn-bot-tournament-exit-close" class="setup-close" type="button" aria-label="Close stop tournament confirmation">x</button>
+          </div>
+          <div class="archive-delete-confirm-body">
+            <div id="bot-tournament-exit-text" class="archive-status">Are you sure you want to exit? The current bot tournament will stop.</div>
+            <div class="engine-btn-row archive-delete-confirm-actions">
+              <button id="btn-bot-tournament-exit-cancel" class="engine-btn" type="button">Cancel</button>
+              <button id="btn-bot-tournament-exit-accept" class="engine-btn archive-delete-all-btn" type="button">Exit Tournament</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="bot-tournament-human-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Add human player">
+        <div class="setup-panel">
+          <div class="setup-panel-title-row">
+            <h2 class="setup-panel-title">Add Human Player</h2>
+            <button id="btn-bot-tournament-human-close" class="setup-close" type="button" aria-label="Close human player form">x</button>
+          </div>
+          <div class="archive-delete-confirm-body">
+            <label class="setup-label" for="bot-tournament-human-name">Name</label>
+            <input id="bot-tournament-human-name" class="setup-select" type="text" maxlength="64" />
+            <label class="setup-label" for="bot-tournament-human-rating">Rating</label>
+            <input id="bot-tournament-human-rating" class="setup-select" type="number" min="0" max="5000" placeholder="Rating" />
+            <div class="engine-btn-row archive-delete-confirm-actions">
+              <button id="btn-bot-tournament-human-cancel" class="engine-btn" type="button">Close</button>
+              <button id="btn-bot-tournament-human-save" class="engine-btn" type="button">Add Human</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="variants-screen" class="tools-screen hidden">
+      <button id="btn-variants-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout variants-layout">
+        <div id="variants-root" class="variants-shell"></div>
+      </div>
+    </section>
+
+    <section id="chess960-screen" class="tools-screen hidden">
+      <button id="btn-chess960-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout chess960-layout">
+        <div class="chess960-content">
+          <div id="chess960-board-wrap" class="chess960-board-wrap">
+            <div id="chess960-board" class="chess960-board" aria-label="Chess960 board"></div>
+            <div id="chess960-resize-handle" class="chess960-resize-handle" title="Drag to resize board"></div>
+          </div>
+          <div class="chess960-side">
+            <button id="btn-chess960-random" class="home-action-btn tools-action-btn" type="button">Random</button>
+            <div class="chess960-position-picker">
+              <label class="setup-label" for="chess960-position-number">Position Number (1-960)</label>
+              <input id="chess960-position-number" class="setup-input chess960-position-input" type="number" min="1" max="960" step="1" placeholder="518" />
+              <button id="btn-chess960-generate-number" class="home-action-btn tools-action-btn chess960-generate-btn" type="button">Generate</button>
+            </div>
+            <label class="setup-label" for="chess960-fen-output">FEN</label>
+            <textarea id="chess960-fen-output" class="analysis-fen-text chess960-fen-text" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tournament-screen" class="tools-screen hidden">
+      <button id="btn-tournament-back" class="tools-top-back" type="button">Back</button>
+      <button id="btn-tournament-export-csv" class="tools-top-secondary hidden" type="button">Export CSV</button>
+      <div class="tools-layout tournament-layout">
+        <div id="tournament-screen-header" class="tools-header">
+          <h2>Tournament Mode</h2>
+        </div>
+        <div id="tournament-entry-view" class="tournament-entry-view">
+          <div class="tournament-entry-panel">
+            <div class="engine-btn-row tournament-entry-actions">
+              <button id="btn-tournament-entry-new" class="engine-btn" type="button">New Tournament</button>
+              <button id="btn-tournament-entry-load" class="engine-btn" type="button">Load Tournament</button>
+            </div>
+          </div>
+        </div>
+        <div id="tournament-setup-view" class="tournament-grid">
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Config</div>
+            <label class="setup-label" for="tournament-name-input">Tournament name</label>
+            <input id="tournament-name-input" class="setup-select" type="text" maxlength="80" />
+
+            <div class="tournament-config-row">
+              <label class="setup-label" for="tournament-format-select">Format</label>
+              <select id="tournament-format-select" class="setup-select">
+                <option value="swiss_dutch">Swiss (Dutch)</option>
+                <option value="rr">Round Robin</option>
+                <option value="drr">Double Round Robin</option>
+                <option value="ko">Knockout</option>
+              </select>
+            </div>
+
+            <div class="tournament-config-row">
+              <label class="setup-label" for="tournament-rounds-input">Swiss rounds</label>
+              <input id="tournament-rounds-input" class="setup-select" type="number" min="1" max="30" value="7" />
+            </div>
+
+            <label class="opt-check">
+              <input id="tournament-randomize-ko" type="checkbox" />
+              Randomize knockout seeding
+            </label>
+
+            <div class="engine-btn-row">
+              <button id="btn-tournament-save" class="engine-btn" type="button">Save</button>
+              <button id="btn-tournament-start" class="engine-btn" type="button">Start Tournament</button>
+            </div>
+          </div>
+
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Players</div>
+            <div class="tournament-player-add">
+              <input id="tournament-player-name" class="setup-select" type="text" placeholder="Player name" maxlength="64" />
+              <input id="tournament-player-rating" class="setup-select" type="number" min="0" max="5000" placeholder="Rating" />
+              <button id="btn-tournament-add-player" class="engine-btn" type="button">Add</button>
+              <button id="btn-tournament-import-players" class="engine-btn" type="button">Import</button>
+            </div>
+            <input id="tournament-player-search" class="setup-select tournament-player-search" type="text" placeholder="Search players" />
+            <div class="tournament-table-wrap tournament-player-table-wrap">
+              <table class="tournament-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Rt</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="tournament-player-list"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="tournament-live-view" class="tournament-grid hidden">
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Round Pairings</div>
+            <div id="tournament-round-label" class="tournament-round-label">Round: -</div>
+            <div class="engine-btn-row tournament-round-actions">
+              <button id="btn-tournament-generate-round" class="engine-btn" type="button">Next Round</button>
+              <button id="btn-tournament-undo" class="engine-btn" type="button">Undo</button>
+              <button id="btn-tournament-display" class="engine-btn" type="button">Display Mode</button>
+              <button id="btn-tournament-standings" class="engine-btn" type="button">Standings</button>
+              <button id="btn-tournament-finalize" class="engine-btn" type="button">Complete Tournament</button>
+              <label class="opt-check tournament-inline-override">
+                <input id="tournament-arbiter-override" type="checkbox" />
+                Arbiter override mode
+              </label>
+            </div>
+            <input id="tournament-pairing-search" class="setup-select tournament-player-search" type="text" placeholder="Search pairings" />
+            <div class="tournament-table-wrap tournament-live-pairings-wrap">
+              <table class="tournament-table">
+                <thead>
+                  <tr>
+                    <th>Bd</th>
+                    <th>White</th>
+                    <th>Black</th>
+                    <th>Result</th>
+                  </tr>
+                </thead>
+                <tbody id="tournament-pairings-list"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="tournament-standings-view" class="tournament-grid hidden">
+          <div class="tournament-panel">
+            <div class="tournament-panel-title">Standings</div>
+            <div class="engine-btn-row tournament-standings-actions">
+              <button id="btn-tournament-standings-display" class="engine-btn" type="button">Display Mode</button>
+            </div>
+            <input id="tournament-standings-search" class="setup-select tournament-player-search" type="text" placeholder="Search standings" />
+            <div class="tournament-table-wrap tournament-standings-table-wrap">
+              <table class="tournament-table">
+                <thead>
+                  <tr>
+                    <th>Rk</th>
+                    <th>Name</th>
+                    <th>Pts</th>
+                    <th>BH</th>
+                    <th>MBH</th>
+                    <th>SB</th>
+                    <th>DE</th>
+                  </tr>
+                </thead>
+                <tbody id="tournament-standings-list"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="tournament-display-view" class="hidden">
+          <div class="tournament-display-topbar">
+            <div id="tournament-display-round-label" class="tournament-display-round-label">Round 1/1</div>
+            <input id="tournament-display-search" class="setup-select tournament-display-search" type="text" placeholder="Search pairings" />
+            <div class="tournament-display-page-controls">
+              <button id="btn-tournament-display-prev" class="engine-btn tournament-display-page-btn" type="button">Previous</button>
+              <div id="tournament-display-page-label" class="tournament-display-page-label">Page 1/1</div>
+              <button id="btn-tournament-display-next" class="engine-btn tournament-display-page-btn" type="button">Next</button>
+            </div>
+            <button id="btn-tournament-display-exit" class="engine-btn tournament-display-exit" type="button">Exit</button>
+          </div>
+          <div id="tournament-display-body" class="tournament-display-body">
+            <div id="tournament-display-columns" class="tournament-display-columns"></div>
+          </div>
+        </div>
+        <div id="tournament-standings-display-view" class="hidden">
+          <div class="tournament-display-topbar tournament-standings-display-topbar">
+            <div class="tournament-display-round-label">Standings</div>
+            <input id="tournament-standings-display-search" class="setup-select tournament-display-search" type="text" placeholder="Search standings" />
+            <div class="tournament-display-page-controls">
+              <button id="btn-tournament-standings-display-prev" class="engine-btn tournament-display-page-btn" type="button">Previous</button>
+              <div id="tournament-standings-display-page-label" class="tournament-display-page-label">Page 1/1</div>
+              <button id="btn-tournament-standings-display-next" class="engine-btn tournament-display-page-btn" type="button">Next</button>
+            </div>
+            <button id="btn-tournament-standings-display-exit" class="engine-btn tournament-display-exit" type="button">Exit</button>
+          </div>
+          <div id="tournament-standings-display-body" class="tournament-display-body">
+            <div id="tournament-standings-display-columns" class="tournament-standings-display-columns"></div>
+          </div>
+        </div>
+        <div id="tournament-status" class="archive-status"></div>
+      </div>
+    </section>
+
+    <section id="vision-screen" class="tools-screen hidden">
+      <button id="btn-vision-back" class="tools-top-back" type="button">Back</button>
+      <div class="tools-layout vision-layout">
+        <div class="tools-header">
+          <h2>Chess Vision</h2>
+        </div>
+        <div class="vision-warning-banner">
+          Experimental feature. Recognition is unreliable and may produce incorrect positions. Use only for testing.
+        </div>
+        <div class="vision-grid">
+          <div class="tournament-panel vision-panel">
+            <div class="tournament-panel-title">Source</div>
+            <div class="engine-btn-row vision-mode-row">
+              <button id="btn-vision-mode-upload" class="engine-btn" type="button">Upload Image</button>
+              <button id="btn-vision-mode-camera" class="engine-btn" type="button">Camera Snapshot</button>
+            </div>
+            <div id="vision-backend-status" class="engine-status">Checking vision backend...</div>
+            <div id="vision-upload-actions" class="vision-source-block">
+              <div class="engine-btn-row vision-upload-row">
+                <button id="btn-vision-pick-image" class="engine-btn" type="button">Choose Image</button>
+                <button id="btn-vision-recognize" class="engine-btn" type="button">Recognize</button>
+              </div>
+              <div id="vision-selected-file" class="engine-status">No image selected.</div>
+            </div>
+            <div id="vision-camera-actions" class="vision-source-block hidden">
+              <div class="engine-btn-row vision-camera-row">
+                <button id="btn-vision-start-camera" class="engine-btn" type="button">Start Camera</button>
+                <button id="btn-vision-capture" class="engine-btn" type="button">Capture</button>
+                <button id="btn-vision-stop-camera" class="engine-btn" type="button">Stop Camera</button>
+              </div>
+              <div id="vision-camera-status" class="engine-status">Camera idle.</div>
+            </div>
+            <label class="setup-label" for="vision-orientation-select">Board orientation</label>
+            <select id="vision-orientation-select" class="setup-select">
+              <option value="white">White at bottom</option>
+              <option value="black">Black at bottom</option>
+            </select>
+            <div class="engine-btn-row vision-action-row">
+              <button id="btn-vision-retry" class="engine-btn" type="button">Retry</button>
+              <button id="btn-vision-use-analysis" class="engine-btn" type="button">Use In Analysis</button>
+            </div>
+          </div>
+
+          <div class="tournament-panel vision-panel">
+            <div class="tournament-panel-title">Preview</div>
+            <div class="vision-preview-wrap">
+              <img id="vision-image-preview" class="vision-preview-image hidden" alt="Selected chessboard preview" />
+              <video id="vision-camera-preview" class="vision-preview-video hidden" autoplay playsinline muted></video>
+              <div id="vision-preview-empty" class="vision-preview-empty">Select an image or capture a camera frame.</div>
+            </div>
+            <canvas id="vision-capture-canvas" class="hidden"></canvas>
+          </div>
+
+          <div class="tournament-panel vision-panel tournament-panel-span-2">
+            <div class="tournament-panel-title">Recognition Result</div>
+            <label class="setup-label" for="vision-fen-output">FEN</label>
+            <textarea id="vision-fen-output" class="analysis-fen-text vision-fen-text" readonly></textarea>
+            <div class="vision-meta-grid">
+              <div>
+                <label class="setup-label" for="vision-side-to-move">Side to move</label>
+                <select id="vision-side-to-move" class="setup-select">
+                  <option value="w">White</option>
+                  <option value="b">Black</option>
+                </select>
+              </div>
+              <div class="vision-castling-box">
+                <span class="setup-label">Castling</span>
+                <label><input id="vision-castle-k" type="checkbox" />K</label>
+                <label><input id="vision-castle-q" type="checkbox" />Q</label>
+                <label><input id="vision-castle-kb" type="checkbox" />k</label>
+                <label><input id="vision-castle-qb" type="checkbox" />q</label>
+              </div>
+            </div>
+            <div id="vision-result-status" class="archive-status">No recognition run yet.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="game-screen" class="game-screen hidden">
+      <div class="layout">
+        <div id="editor-panel" class="editor-panel hidden" aria-label="Board editor tools">
+          <div class="editor-subpanel editor-subpanel-pieces">
+            <div class="editor-panel-title">Pieces</div>
+            <div id="editor-piece-grid" class="editor-piece-grid"></div>
+          </div>
+        </div>
+        <div id="analysis-left-column" class="analysis-left-column hidden">
+          <div id="crazyhouse-pocket-panel" class="crazyhouse-pocket-panel hidden" aria-label="Crazyhouse pocket">
+            <div class="crazyhouse-pocket-header">
+              <div class="crazyhouse-pocket-title">Drops</div>
+            </div>
+            <div class="crazyhouse-pocket-section">
+              <div class="crazyhouse-pocket-label">White</div>
+              <div id="crazyhouse-pocket-grid-white" class="crazyhouse-pocket-grid"></div>
+            </div>
+            <div class="crazyhouse-pocket-section">
+              <div class="crazyhouse-pocket-label">Black</div>
+              <div id="crazyhouse-pocket-grid-black" class="crazyhouse-pocket-grid"></div>
+            </div>
+          </div>
+          <div id="tablebase-panel" class="tablebase-panel hidden" aria-label="Tablebase evaluation">
+            <div class="tablebase-panel-header">
+              <div class="tablebase-panel-title">Tablebase</div>
+              <div id="tablebase-status-pill" class="tablebase-status-pill">Idle</div>
+            </div>
+            <div id="tablebase-summary" class="tablebase-summary">Set up a position to begin.</div>
+            <div id="tablebase-metrics" class="tablebase-metrics hidden"></div>
+            <div id="tablebase-error" class="tablebase-error hidden"></div>
+            <div class="tablebase-best-header">Best Moves</div>
+            <div id="tablebase-moves" class="tablebase-moves"></div>
+          </div>
+          <div id="analysis-fen-panel" class="analysis-fen-panel hidden" aria-label="FEN panel">
+            <div class="analysis-fen-header">FEN</div>
+            <textarea
+              id="analysis-fen-text"
+              class="analysis-fen-text"
+              spellcheck="false"
+              placeholder="Paste FEN here"
+            ></textarea>
+            <div class="analysis-fen-actions">
+              <button id="btn-analysis-load-fen" class="engine-btn" type="button">Load FEN</button>
+            </div>
+          </div>
+          <div id="analysis-pgn-panel" class="analysis-pgn-panel hidden" aria-label="PGN panel">
+            <div class="analysis-pgn-header">PGN</div>
+            <textarea
+              id="analysis-pgn-text"
+              class="analysis-pgn-text"
+              spellcheck="false"
+              placeholder="PGN appears here. Paste PGN and click Load PGN."
+            ></textarea>
+            <div class="analysis-pgn-actions">
+              <button id="btn-analysis-generate-pgn" class="engine-btn" type="button">Generate</button>
+              <button id="btn-analysis-load-pgn" class="engine-btn" type="button">Load PGN</button>
+              <button id="btn-analysis-save-pgn" class="engine-btn" type="button">Save PGN</button>
+            </div>
+          </div>
+          <div id="analysis-info-panel" class="analysis-info-panel hidden" aria-label="PGN info panel">
+            <div class="analysis-info-header">Info</div>
+            <textarea id="analysis-info-text" class="analysis-info-text" placeholder="No comments or PGN tags."></textarea>
+          </div>
+          <div id="analysis-computer-summary-panel" class="analysis-computer-summary-panel hidden" aria-label="Saved computer analysis summary"></div>
+        </div>
+
+        <div id="online-chat-panel" class="online-chat-panel hidden" aria-label="Online game chat">
+          <div class="online-chat-header">Game Chat</div>
+          <div id="online-chat-status" class="online-chat-status">Player chat</div>
+          <div id="online-chat-list" class="online-chat-list"></div>
+          <div class="online-chat-compose">
+            <input id="online-chat-input" class="online-chat-input" type="text" maxlength="140" placeholder="Type a message" />
+            <button id="btn-online-chat-send" class="engine-btn online-chat-send-btn" type="button" aria-label="Send chat" title="Send">
+              <img src="../assets/extras/send.png" alt="Send" />
+            </button>
+          </div>
+        </div>
+
+        <div id="board-shell" class="board-shell">
+          <div id="analysis-eval-bar" class="analysis-eval-bar hidden" aria-label="Evaluation bar">
+            <div id="analysis-eval-center" class="analysis-eval-center"></div>
+            <div id="analysis-eval-text" class="analysis-eval-text">--</div>
+          </div>
+          <div id="board" class="board" aria-label="Chess board"></div>
+          <svg id="board-annotations" class="board-annotations" aria-hidden="true"></svg>
+          <div id="promotion-menu" class="promotion-menu hidden" aria-label="Pawn promotion choices"></div>
+          <div id="board-resize-handle" class="board-resize-handle" title="Drag to resize board"></div>
+        </div>
+
+        <div id="editor-controls-panel" class="editor-controls-panel hidden" aria-label="Board editor controls">
+          <div class="editor-subpanel editor-subpanel-controls">
+            <div class="editor-controls-topbar">
+              <button id="btn-editor-flip" class="player-action-btn" type="button" title="Flip board" aria-label="Flip board">
+                <img src="../assets/extras/flipboard.png" alt="Flip board" />
+              </button>
+              <button id="btn-editor-home" class="player-action-btn" type="button" title="Main menu" aria-label="Main menu">
+                <img src="../assets/extras/menu.png" alt="Main menu" />
+              </button>
+            </div>
+            <div id="editor-controls-title" class="editor-panel-title">Board Editor</div>
+            <div class="editor-meta-row">
+              <span class="editor-meta-label">Turn</span>
+              <button id="btn-editor-turn-w" class="engine-btn editor-turn-btn" type="button">White</button>
+              <button id="btn-editor-turn-b" class="engine-btn editor-turn-btn" type="button">Black</button>
+            </div>
+            <div class="editor-meta-castling">
+              <span class="editor-meta-label">Castling White</span>
+              <label><input id="editor-castle-k" type="checkbox" checked />O-O</label>
+              <label><input id="editor-castle-q" type="checkbox" checked />O-O-O</label>
+            </div>
+            <div class="editor-meta-castling">
+              <span class="editor-meta-label">Castling Black</span>
+              <label><input id="editor-castle-kb" type="checkbox" checked />O-O</label>
+              <label><input id="editor-castle-qb" type="checkbox" checked />O-O-O</label>
+            </div>
+            <div class="editor-meta-grid">
+              <label class="editor-meta-field">
+                <span>EP</span>
+                <select id="editor-ep">
+                  <option value="-">-</option>
+                </select>
+              </label>
+            </div>
+            <label class="editor-fen-wrap">
+              <span class="editor-meta-label">FEN</span>
+              <textarea id="editor-fen-output" class="editor-fen-output"></textarea>
+            </label>
+            <div class="editor-tool-row editor-action-row">
+              <button id="btn-editor-validate" class="engine-btn" type="button">Load</button>
+              <button id="btn-editor-use-analysis" class="engine-btn" type="button">Analysis</button>
+              <button id="btn-editor-play-engine" class="engine-btn" type="button">Play vs Engine</button>
+            </div>
+            <div id="editor-validation-msg" class="editor-validation-msg"></div>
+            <div class="editor-tool-row">
+              <button id="btn-editor-erase" class="engine-btn" type="button">Eraser</button>
+              <button id="btn-editor-clear" class="engine-btn" type="button">Clear</button>
+              <button id="btn-editor-startpos" class="engine-btn" type="button">Start</button>
+            </div>
+            <div id="editor-tool-note" class="editor-tool-note">Select a piece and click or drag on board squares.</div>
+          </div>
+        </div>
+
+        <aside class="side-panel">
+          <div id="material-top" class="material-strip" aria-label="Top material imbalance"></div>
+          <div id="clock-top" class="clock-box" aria-label="Top player clock">
+            <div id="clock-top-time" class="clock-time">1:00</div>
+            <div class="clock-progress-track">
+              <div id="clock-top-progress" class="clock-progress-fill"></div>
+            </div>
+          </div>
+          <div class="tablebase-side-actions">
+            <button id="btn-tablebase-training" class="engine-btn tablebase-side-btn" type="button">Training Mode</button>
+          </div>
+          <div id="player-top-bar" class="player-bar player-top">
+            <span id="player-top-name">Engine</span>
+          </div>
+          <div id="analysis-top-panel" class="analysis-top-panel hidden">
+            <label class="analysis-switch" title="Toggle analysis">
+              <input id="analysis-enabled-toggle" type="checkbox" checked />
+              <span class="analysis-switch-track">
+                <span class="analysis-switch-knob"></span>
+              </span>
+            </label>
+            <div id="analysis-top-eval" class="analysis-top-eval">--</div>
+            <div class="analysis-engine-meta">
+              <div id="analysis-engine-name" class="analysis-engine-name">Engine</div>
+              <div id="analysis-engine-stats" class="analysis-engine-stats">d-- h--</div>
+            </div>
+            <button id="analysis-options-btn" class="analysis-options-btn" type="button" title="Analysis options" aria-label="Analysis options">
+              <img src="../assets/extras/options.png" alt="Options" />
+            </button>
+          </div>
+          <div id="analysis-options-panel" class="analysis-options-panel hidden">
+            <div class="analysis-option-title">Engine</div>
+            <div id="analysis-options-engine" class="analysis-options-engine">Engine</div>
+            <div class="analysis-option-row">
+              <label for="analysis-depth">Search depth</label>
+              <span id="analysis-depth-value" class="analysis-option-value">20</span>
+              <input id="analysis-depth" type="range" min="0" max="5" step="1" value="1" />
+            </div>
+            <div class="analysis-option-row">
+              <label for="analysis-multipv">Multiple lines</label>
+              <span id="analysis-multipv-value" class="analysis-option-value">1</span>
+              <input id="analysis-multipv" type="range" min="1" max="5" step="1" value="1" />
+            </div>
+            <div class="analysis-option-row">
+              <label for="analysis-threads">Threads</label>
+              <span id="analysis-threads-value" class="analysis-option-value">1</span>
+              <input id="analysis-threads" type="range" min="1" max="32" step="1" value="1" />
+            </div>
+            <div class="analysis-option-row">
+              <label for="analysis-hash">Hash (MB)</label>
+              <span id="analysis-hash-value" class="analysis-option-value">16</span>
+              <input id="analysis-hash" type="range" min="4" max="12" step="1" value="4" />
+            </div>
+          </div>
+          <div id="analysis-lines-panel" class="analysis-lines-panel hidden" aria-label="Top engine lines"></div>
+          <div id="move-list" class="move-list" aria-label="Move notation list"></div>
+          <div id="info-banner" class="info-banner hidden" aria-live="polite">
+            <img class="info-icon" src="../assets/extras/information.png" alt="Info" />
+            <div id="info-text" class="info-text"></div>
+          </div>
+          <div id="player-controls-bar" class="player-controls-bar">
+            <button id="btn-resign" class="player-action-btn" type="button" title="Resign game" aria-label="Resign game">
+              <img src="../assets/extras/resign.png" alt="Resign" />
+            </button>
+            <button id="btn-undo-pair" class="player-action-btn" type="button" title="Undo last two moves" aria-label="Undo last two moves">
+              <img src="../assets/extras/undobutton.png" alt="Undo move" />
+            </button>
+            <button id="btn-online-draw" class="player-action-btn hidden" type="button" title="Offer or accept draw" aria-label="Offer or accept draw">
+              <img src="../assets/extras/draw.png" alt="Draw" />
+            </button>
+            <button id="btn-online-draw-accept" class="player-action-btn online-response-btn hidden" type="button" title="Accept draw" aria-label="Accept draw">✓</button>
+            <button id="btn-online-draw-reject" class="player-action-btn online-response-btn hidden" type="button" title="Reject draw" aria-label="Reject draw">✕</button>
+            <button id="btn-online-takeback" class="player-action-btn hidden" type="button" title="Offer or accept takeback" aria-label="Offer or accept takeback">
+              <img src="../assets/extras/takeback.png" alt="Takeback" />
+            </button>
+            <button id="btn-online-takeback-accept" class="player-action-btn online-response-btn hidden" type="button" title="Accept takeback" aria-label="Accept takeback">✓</button>
+            <button id="btn-online-takeback-reject" class="player-action-btn online-response-btn hidden" type="button" title="Reject takeback" aria-label="Reject takeback">✕</button>
+            <button id="btn-flip-board" class="player-action-btn" type="button" title="Flip board" aria-label="Flip board">
+              <img src="../assets/extras/flipboard.png" alt="Flip board" />
+            </button>
+            <button id="btn-bot-tournament-spectator-back" class="player-action-btn hidden" type="button" title="Back to pairings" aria-label="Back to pairings">
+              <img src="../assets/extras/back.png" alt="Back to pairings" />
+            </button>
+            <button id="btn-postgame-analysis" class="player-action-btn hidden" type="button" title="Analyze game" aria-label="Analyze game">
+              <img src="../assets/extras/analysis.png" alt="Analyze game" />
+            </button>
+            <button id="btn-main-menu" class="player-action-btn" type="button" title="Main menu" aria-label="Main menu">
+              <img src="../assets/extras/menu.png" alt="Main menu" />
+            </button>
+            <button id="btn-tablebase-back-setup" class="player-action-btn hidden" type="button" title="Back to tablebase setup" aria-label="Back to tablebase setup">
+              <img src="../assets/extras/back.png" alt="Back" />
+            </button>
+            <button id="btn-tablebase-training-hint" class="player-action-btn hidden" type="button" title="Show hint" aria-label="Show hint">
+              <img src="../assets/extras/hint.png" alt="Hint" />
+            </button>
+            <button id="btn-tablebase-exit-training" class="player-action-btn hidden" type="button" title="Exit training" aria-label="Exit training">
+              <img src="../assets/extras/exit.png" alt="Exit" />
+            </button>
+            <button id="btn-puzzle-hint" class="player-action-btn hidden" type="button" title="Show puzzle hint" aria-label="Show puzzle hint">
+              <img src="../assets/extras/hint.png" alt="Hint" />
+            </button>
+            <button id="btn-puzzle-exit" class="player-action-btn hidden" type="button" title="Exit puzzle" aria-label="Exit puzzle">
+              <img src="../assets/extras/exit.png" alt="Exit" />
+            </button>
+            <button id="btn-puzzle-next" class="player-action-btn hidden" type="button" title="Next puzzle" aria-label="Next puzzle">
+              <img src="../assets/extras/next.png" alt="Next puzzle" />
+            </button>
+            <button id="btn-puzzle-analyze" class="player-action-btn hidden" type="button" title="Analyze puzzle" aria-label="Analyze puzzle">
+              <img src="../assets/extras/analysis.png" alt="Analyze puzzle" />
+            </button>
+            <button id="btn-rematch" class="player-action-btn rematch-btn hidden" type="button" title="Rematch" aria-label="Rematch">
+              <img src="../assets/extras/rematch.png" alt="Rematch" />
+            </button>
+          </div>
+          <div id="analysis-function-bar" class="player-controls-bar analysis-function-bar hidden">
+            <button id="btn-analysis-computer" class="player-action-btn hidden" type="button" title="Computer Analysis" aria-label="Computer Analysis">
+              <img src="../assets/extras/computer.png" alt="Computer Analysis" />
+            </button>
+            <button id="btn-analysis-toggle-judgments" class="player-action-btn hidden" type="button" title="Hide judgment markers" aria-label="Hide judgment markers">
+              <img src="../assets/extras/hide.png" alt="Hide judgment markers" />
+            </button>
+            <button id="btn-analysis-flip-board" class="player-action-btn" type="button" title="Flip board" aria-label="Flip board">
+              <img src="../assets/extras/flipboard.png" alt="Flip board" />
+            </button>
+            <button id="btn-analysis-main-menu" class="player-action-btn" type="button" title="Main menu" aria-label="Main menu">
+              <img src="../assets/extras/menu.png" alt="Main menu" />
+            </button>
+          </div>
+          <div id="player-bottom-bar" class="player-bar player-bottom">
+            <span id="player-bottom-name">Player 2</span>
+          </div>
+          <div id="clock-bottom" class="clock-box" aria-label="Bottom player clock">
+            <div id="clock-bottom-time" class="clock-time">1:00</div>
+            <div class="clock-progress-track">
+              <div id="clock-bottom-progress" class="clock-progress-fill"></div>
+            </div>
+          </div>
+          <div id="material-bottom" class="material-strip" aria-label="Bottom material imbalance"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <div id="move-context-menu" class="move-context-menu hidden" role="menu" aria-label="Move actions">
+    <button id="btn-delete-from-here" class="move-context-item" type="button">Delete from here</button>
+  </div>
+  <div id="archive-context-menu" class="move-context-menu hidden" role="menu" aria-label="Archive actions">
+    <button id="btn-archive-delete" class="move-context-item" type="button">Delete game</button>
+  </div>
+  <div id="variation-picker-menu" class="move-context-menu hidden" role="menu" aria-label="Variations"></div>
+  <div id="app-message" class="app-message hidden" role="status" aria-live="polite"></div>
+  <div id="tablebase-training-modal" class="setup-modal hidden" role="dialog" aria-modal="true" aria-label="Tablebase training">
+    <div class="setup-panel tablebase-training-modal-panel">
+      <div class="setup-header">
+        <h2>Training Mode</h2>
+        <button id="btn-tablebase-training-close" class="setup-close" type="button" aria-label="Close training setup">x</button>
+      </div>
+      <div class="tablebase-training-panel" aria-label="Tablebase training settings">
+        <div class="tablebase-training-title">Play against tablebase</div>
+        <div class="tablebase-training-subtitle">Start training from the current board position and choose how strict the guidance should be.</div>
+        <div class="tablebase-training-row">
+          <span class="editor-meta-label">Play As</span>
+          <button id="btn-tablebase-train-white" class="engine-btn editor-turn-btn" type="button">White</button>
+          <button id="btn-tablebase-train-black" class="engine-btn editor-turn-btn" type="button">Black</button>
+        </div>
+        <label class="opt-check tablebase-training-check">
+          <input id="tablebase-training-review" type="checkbox" />
+          Move review
+        </label>
+        <label class="opt-check tablebase-training-check">
+          <input id="tablebase-training-hint-enabled" type="checkbox" />
+          Hint enabled
+        </label>
+        <div class="tablebase-training-row tablebase-training-row-actions">
+          <button id="btn-tablebase-training-start" class="engine-btn" type="button">Start</button>
+          <button id="btn-tablebase-training-cancel" class="engine-btn" type="button">Cancel</button>
+        </div>
+        <div id="tablebase-training-msg" class="editor-validation-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./modules/variants/fairy-preload.mjs"></script>
+  <script src="./renderer.js"></script>
+</body>
+</html>

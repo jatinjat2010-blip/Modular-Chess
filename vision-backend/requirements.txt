@@ -1,0 +1,1 @@
+./vision-backend/vendor/chesscog

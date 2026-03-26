@@ -1,0 +1,65 @@
+{
+  "name": "modular-chess",
+  "version": "0.1.0",
+  "description": "Modular desktop chess app with offline, online, analysis, and tournament workflows.",
+  "author": "Modular Chess",
+  "main": "main.js",
+  "scripts": {
+    "start": "set ELECTRON_RUN_AS_NODE=&& electron .",
+    "pack:win": "electron-builder --win portable --dir",
+    "dist:win": "electron-builder --win portable nsis"
+  },
+  "dependencies": {
+    "chess.js": "^1.4.0",
+    "ffish-es6": "^0.7.8",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^30.5.1",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.modularchess.app",
+    "productName": "Modular Chess",
+    "directories": {
+      "output": "release"
+    },
+    "icon": "icon.png",
+    "files": [
+      "main.js",
+      "package.json",
+      "src/**/*",
+      "main/**/*",
+      "assets/**/*",
+      "STOCKFISH_NOTICE.md",
+      "vision-backend/**/*",
+      "Engines/**/*",
+      "Bots/**/*",
+      "PGN/**/*",
+      "tourney/**/*",
+      "!backend/**",
+      "!assets/Samples/**",
+      "!vision-backend/.venv/**",
+      "!vision-backend/vendor/chesscog/.git/**",
+      "!**/*.pyc"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "vision-backend/**/*",
+      "Engines/**/*"
+    ],
+    "win": {
+      "icon": "icon.png",
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    }
+  }
+}

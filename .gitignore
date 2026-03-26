@@ -1,0 +1,65 @@
+# Node / Electron
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build / packaged output
+release/
+dist/
+out/
+build/
+
+# Electron builder unpacked artifacts
+win-unpacked/
+*.blockmap
+
+# Python / local backend / vision envs
+.venv/
+venv/
+env/
+ENV/
+vision-backend/.venv/
+backend/.venv/
+__pycache__/
+*.pyc
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Logs / temp
+*.log
+tmp/
+temp/
+*.tmp
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local git / patch leftovers
+*.orig
+*.rej
+
+# Test artifacts / coverage
+coverage/
+.nyc_output/
+
+# Optional local caches
+.cache/
+.eslintcache
+
+# Bundled engines / bots kept local for release builds
+Engines/
+Bots/

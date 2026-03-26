@@ -1,0 +1,221 @@
+.bots-layout {
+  align-items: stretch;
+}
+
+.bots-shell {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.bots-shell__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bots-shell__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.bots-shell__eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.bots-shell__title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.08;
+  color: #ffffff;
+}
+
+.bots-shell__subtitle {
+  margin: 0;
+  max-width: 560px;
+  margin-right: auto;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(235, 242, 250, 0.84);
+}
+
+.bots-add-btn {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.bots-shell__body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.bots-config-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(7, 11, 16, 0.62);
+  backdrop-filter: blur(8px);
+}
+
+.bots-config-dialog {
+  width: min(560px, 100%);
+}
+
+.bots-config-card {
+  width: 100%;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(17, 23, 31, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bots-config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bots-config-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f4f8ff;
+}
+
+.bots-config-close {
+  border: 0;
+  background: transparent;
+  color: rgba(210, 222, 236, 0.85);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.bots-config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bots-config-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(199, 211, 225, 0.8);
+}
+
+.bots-config-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4f8ff;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.bots-config-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.bots-config-picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.bots-config-picker-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 280px;
+}
+
+.bots-config-path {
+  color: rgba(226, 234, 245, 0.84);
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.bots-config-note {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(199, 211, 225, 0.78);
+}
+
+.bots-config-btn {
+  min-height: 46px;
+  padding: 0 18px;
+}
+
+.bots-config-btn.is-danger {
+  background: linear-gradient(180deg, rgba(160, 44, 44, 0.9), rgba(110, 23, 23, 0.95));
+}
+
+.bots-action-btn {
+  min-height: 92px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: 16px 18px;
+  gap: 8px;
+}
+
+.bots-action-btn.is-disabled {
+  opacity: 0.7;
+}
+
+.bots-action-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f4f8ff;
+}
+
+.bots-action-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(226, 234, 245, 0.82);
+}
+
+.bots-action-state {
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(121, 186, 255, 0.88);
+}
+
+.bots-shell__error {
+  color: #ffb9aa;
+  font-size: 15px;
+}
